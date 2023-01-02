@@ -1,22 +1,13 @@
-import java.util.Arrays;
-
 public class Main {
-    static char[] letters = {'a', 'b', 'C', '*', '^', '!', 'd', '!'};
-    static char[] reversed = new char[letters.length];
-
-    static boolean checkIfEmpty(int position) {
-        return reversed[position] == '\0';
-    }
-
-    static void reverse(char[] array) {
+    static char[] reverse(char[] array) {
+        char[] reversed = new char[array.length];
         int j = 0;
         for (int i = array.length - 1; i >= 0; i--) {
             if (array[i] >= 'a' && array[i] <= 'z' || array[i] >= 'A' && array[i] <= 'Z') {
-                while (!checkIfEmpty(j)) {
+                while (reversed[j] != '\0') {
                     j++;
-                    checkIfEmpty(j);
                 }
-                reversed[j] = letters[i];
+                reversed[j] = array[i];
                 j++;
             } else {
                 int jCurrent = j;
@@ -24,11 +15,22 @@ public class Main {
                 reversed[j] = array[i];
                 j = jCurrent;
             }
-            System.out.println(Arrays.toString(reversed));
         }
+        return reversed;
+    }
+
+    public static String toAnagram(String input) {
+        String[] words = input.split(" ");
+        StringBuilder result = new StringBuilder();
+        for (String w : words) {
+            char[] wordReversed = reverse(w.toCharArray());
+            result.append(new String(wordReversed));
+            result.append(" ");
+        }
+        return result.toString().trim();
     }
 
     public static void main(String[] args) {
-        reverse(letters);
+        System.out.println(toAnagram("a 1 bcdefg!h"));
     }
 }
